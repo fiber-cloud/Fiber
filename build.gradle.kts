@@ -1,25 +1,24 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    java
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version Versions.kotlin apply false
 }
 
 group = "app.fiber.project"
 version = "1.0"
 
-repositories {
-    mavenCentral()
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+
+    this.group = this.rootProject.group
+    this.version = this.rootProject.version
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    testCompile("junit", "junit", "4.12")
-}
-
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-}
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
