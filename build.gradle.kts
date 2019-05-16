@@ -17,12 +17,7 @@ subprojects {
         mavenCentral()
     }
 
-    tasks.withType<KotlinCompile> {
+    this.tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
-}
-
-this.tasks.register<DependencyTask>("collectDependencies") {
-    this.group = "fiber"
-    this.description = "Collect all dependencies for the runtime in the dependencies.json file"
 }
