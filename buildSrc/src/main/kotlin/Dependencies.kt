@@ -1,7 +1,7 @@
 object Versions {
 
     //Kotlin
-    const val kotlin = "1.3.21"
+    const val kotlin = "1.3.31"
     const val coroutines = "1.1.1"
 
     //Docker
