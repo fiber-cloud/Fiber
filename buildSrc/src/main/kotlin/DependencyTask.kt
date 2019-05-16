@@ -7,7 +7,7 @@ open class DependencyTask : DefaultTask() {
 
     @TaskAction
     fun collectAndPrint() {
-        val dependencies = this.project.subprojects
+        val dependencies = this.project.rootProject.subprojects
             .asSequence()
             .map { it.configurations }
             .flatten()
