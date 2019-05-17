@@ -1,15 +1,21 @@
 package app.fiber.project.node
 
+import app.fiber.project.node.injection.nodeModule
 import app.fiber.project.node.logging.Logger
 import joptsimple.OptionParser
+import org.koin.core.KoinComponent
+import org.koin.core.context.startKoin
+import org.koin.core.inject
 
 fun main(args: Array<String>) = NodeBootstrap.launch(args)
 
-object NodeBootstrap {
-
-    private val logger = Logger()
+object NodeBootstrap : KoinComponent {
 
     fun launch(args: Array<String>) {
+        startKoin {
+            modules(nodeModule)
+        }
+
         val parser = OptionParser()
         parser.allowsUnrecognizedOptions()
 
@@ -25,7 +31,9 @@ object NodeBootstrap {
         }
 
         if (optionSet.has("v") || optionSet.has("version")) {
-            this.logger.info("Current version: ${Node.version()}", false)
+            val logger by inject<Logger>()
+
+            logger.info("Current version: ${Node.version()}", false)
             return
         }
 

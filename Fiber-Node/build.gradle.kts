@@ -6,9 +6,15 @@ plugins {
     id(Plugins.shadowJar) version Versions.shadow
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     implementation(Dependencies.kotlinStandard)
+
     implementation(Dependencies.joptSimple)
+    implementation(Dependencies.koin)
 }
 
 this.tasks.withType<ShadowJar> {
