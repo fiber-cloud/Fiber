@@ -1,5 +1,8 @@
 object Versions {
 
+    //Gradle Plugins
+    const val shadow = "5.0.0"
+
     //Kotlin
     const val kotlin = "1.3.31"
     const val coroutines = "1.1.1"
@@ -45,4 +48,10 @@ object Dependencies {
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}"
     const val jacksonYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}"
 
+}
+
+object Plugins {
+
+    //Shadow Jar
+    const val shadowJar = "com.github.johnrengelman.shadow"
 }

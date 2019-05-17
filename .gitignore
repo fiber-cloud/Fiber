@@ -11,6 +11,3 @@ out
 *.ipr
 *.iws
 *.iml
-
-# Fiber
-dependencies.json

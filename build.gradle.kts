@@ -21,3 +21,5 @@ subprojects {
         kotlinOptions.jvmTarget = "1.8"
     }
 }
+
+defaultTasks("clean", "build")
