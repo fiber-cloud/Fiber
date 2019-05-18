@@ -1,5 +1,6 @@
 package app.fiber.project.command.help
 
+import app.fiber.project.command.CommandModel
 import app.fiber.project.command.annotation.Model
 import app.fiber.project.command.annotation.Parameter
 import app.fiber.project.command.annotation.Route
@@ -22,7 +23,7 @@ class HelpCommand(private val info: (String) -> Unit, private val warn: (String)
     fun defaultRoute(): CommandResult {
         this.info.invoke("<-- Commands -->")
         this.info.invoke("")
-        CommandExecutor.commands.forEach { this.info.invoke("${it.label.capitalize()} -> ${it.description}") }
+        this.listCommands(CommandExecutor.commands)
         return CommandResult.SUCCESS
     }
 
@@ -44,7 +45,7 @@ class HelpCommand(private val info: (String) -> Unit, private val warn: (String)
         if (commandModel.subModels.isNotEmpty()) {
             this.info.invoke("<-- Sub Commands -->")
             this.info.invoke("")
-            commandModel.subModels.forEach { this.info.invoke("${it.label.capitalize()} -> ${it.description}") }
+            this.listCommands(commandModel.subModels)
         }
 
         if (commandModel.routes.isNotEmpty()) {
@@ -57,6 +58,10 @@ class HelpCommand(private val info: (String) -> Unit, private val warn: (String)
 
         }
         return CommandResult.SUCCESS
+    }
+
+    private fun listCommands(commands: Collection<CommandModel>) {
+        commands.forEach { this.info.invoke("${it.label.capitalize()} -> ${it.description}") }
     }
 
 }
