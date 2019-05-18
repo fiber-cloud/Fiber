@@ -35,9 +35,7 @@ data class CommandRoute(
         val invokeInstance: Any = this.function.javaMethod!!.declaringClass.newInstance()
 
         if (this.parameters.isEmpty()) {
-            if (parameters.isNotEmpty()) return CommandResult.WRONG_PARAMETERS
-
-            return this.function.call(invokeInstance) as CommandResult
+            return this.executeWithNoParameters(invokeInstance)
         } else {
             if (parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
         }
@@ -52,6 +50,12 @@ data class CommandRoute(
         if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance, convertedParameters)
 
         return this.executeWithParameters(invokeInstance, convertedParameters)
+    }
+
+    private fun executeWithNoParameters(invokeInstance: Any): CommandResult {
+        if (parameters.isNotEmpty()) return CommandResult.WRONG_PARAMETERS
+
+        return this.function.call(invokeInstance) as CommandResult
     }
 
     private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
