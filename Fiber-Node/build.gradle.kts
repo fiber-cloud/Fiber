@@ -8,14 +8,16 @@ plugins {
 
 repositories {
     jcenter()
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation(Dependencies.kotlinStandard)
     implementation(Dependencies.kotlinReflect)
 
-    implementation(Dependencies.joptSimple)
     implementation(Dependencies.koin)
+
+    implementation(Dependencies.joptSimple)
     implementation(Dependencies.zip4j)
 }
 
