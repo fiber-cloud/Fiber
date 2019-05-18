@@ -2,9 +2,9 @@ package app.fiber.project.node.addon
 
 import app.fiber.project.node.logging.Logger
 import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import java.io.File
 import java.io.FileReader
+import java.nio.file.Files
 import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 
@@ -17,11 +17,10 @@ class AddonManager(private val logger: Logger) {
         setIdeaIoUseFallback()
 
         val addonFolder = File("addons")
-        if (!addonFolder.exists()) addonFolder.mkdir()
+        if (!Files.exists(addonFolder.toPath())) Files.createDirectories(addonFolder.toPath())
         addonFolder.listFiles().forEach {
             if (it.isFile && it.name.endsWith(".jar")) {
-                //TODO: Open jar and load classes
-                throw NotImplementedException()
+                TODO("Open jar and load classes")
             } else if (it.isDirectory) {
                 val mainFile = File(it, "main.kts")
                 if (mainFile.exists()) {
