@@ -18,7 +18,7 @@ class AddonManager(private val logger: Logger) {
 
         val addonFolder = File("addons")
         if (!addonFolder.exists()) addonFolder.mkdir()
-        addonFolder.listFiles().forEach { it ->
+        addonFolder.listFiles().forEach {
             if (it.isFile && it.name.endsWith(".jar")) {
                 //TODO: Open jar and load classes
                 throw NotImplementedException()
