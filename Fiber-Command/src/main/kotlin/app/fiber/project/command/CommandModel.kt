@@ -29,10 +29,7 @@ class CommandModel(
      * @return [CommandResult] of the execution.
      */
     fun execute(parameters: List<String>): CommandResult {
-        if (parameters.isEmpty()) {
-            val defaultRoute = this.route("")?: return CommandResult.ROUTE_NOT_FOUND
-            return defaultRoute.execute(emptyList())
-        }
+        if (parameters.isEmpty()) return this.checkParameters()
 
         if (this.subModels.isNotEmpty()) {
             val label = parameters[0].toLowerCase()
@@ -44,7 +41,7 @@ class CommandModel(
             }
         }
 
-        val route = this.route(parameters[0].toLowerCase())?: return CommandResult.ROUTE_NOT_FOUND
+        val route = this.route(parameters[0].toLowerCase()) ?: return CommandResult.ROUTE_NOT_FOUND
         return route.execute(parameters.drop(1))
     }
 
@@ -55,6 +52,11 @@ class CommandModel(
      *
      * @return If found, a [CommandRoute] instance, else null.
      */
-    fun route(name: String) = this.routes.find { it.name == name }
+    private fun route(name: String) = this.routes.find { it.name == name }
+
+    private fun checkParameters(): CommandResult {
+        val defaultRoute = this.route("") ?: return CommandResult.ROUTE_NOT_FOUND
+        return defaultRoute.execute(emptyList())
+    }
 
 }
