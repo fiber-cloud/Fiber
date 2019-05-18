@@ -52,13 +52,33 @@ data class CommandRoute(
         return this.executeWithParameters(invokeInstance, convertedParameters)
     }
 
+    /**
+     * Executes this [CommandRoute] if it has no [CommandParameter]s.
+     *
+     * @param [invokeInstance] Instance to call the function.
+     *
+     * @return [CommandResult] of the execution.
+     */
     private fun executeWithNoParameters(invokeInstance: Any): CommandResult {
         if (parameters.isNotEmpty()) return CommandResult.WRONG_PARAMETERS
 
         return this.function.call(invokeInstance) as CommandResult
     }
 
-    private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
+    /**
+     * Executes this [CommandRoute] if it has optional [CommandParameter]s.
+     *
+     * @param [parameters] Parameters to execute the function.
+     * @param [invokeInstance] Instance to call the function.
+     * @param [convertedParameters] Converted parameters to execute the function.
+     *
+     * @return [CommandResult] of the execution.
+     */
+    private fun executeWithOptionalParameters(
+        parameters: List<String>,
+        invokeInstance: Any,
+        convertedParameters: List<Any?>
+    ): CommandResult {
         when {
             parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
 
@@ -89,6 +109,14 @@ data class CommandRoute(
         }
     }
 
+    /**
+     * Executes this [CommandRoute] if it has [CommandParameter]s.
+     *
+     * @param [invokeInstance] Instance to call the function.
+     * @param [convertedParameters] Converted parameters to execute the function.
+     *
+     * @return [CommandResult] of the execution.
+     */
     private fun executeWithParameters(invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
         if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
 
@@ -97,6 +125,13 @@ data class CommandRoute(
         return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
     }
 
+    /**
+     * Converts [parameters] to their type.
+     *
+     * @param [parameters] Parameters to convert.
+     *
+     * @return Converted parameters.
+     */
     private fun convertParameters(parameters: List<String>): List<Any?> {
         return this.parameters.mapIndexed { index, commandParameter ->
             InputConverterRegistry.inputConverter(commandParameter.type)!!.convert(parameters[index])
@@ -112,6 +147,9 @@ data class CommandRoute(
         return this.parameters.any { it.optional }
     }
 
+    /**
+     * Check access of the function.
+     */
     private fun checkAccess() {
         if (!this.function.isAccessible) this.function.isAccessible = true
     }

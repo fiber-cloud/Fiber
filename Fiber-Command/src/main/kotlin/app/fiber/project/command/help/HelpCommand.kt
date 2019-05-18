@@ -60,6 +60,11 @@ class HelpCommand(private val info: (String) -> Unit, private val warn: (String)
         return CommandResult.SUCCESS
     }
 
+    /**
+     * List all [CommandModel]s of a [Collection] with their description.
+     *
+     * @param [commands] [Collection] of [CommandModel]s for listing.
+     */
     private fun listCommands(commands: Collection<CommandModel>) {
         commands.forEach { this.info.invoke("${it.label.capitalize()} -> ${it.description}") }
     }
