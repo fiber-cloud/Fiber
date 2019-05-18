@@ -51,11 +51,7 @@ data class CommandRoute(
 
         if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance, convertedParameters)
 
-        if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
-
-        this.checkAccess()
-
-        return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
+        return this.executeWithParameters(invokeInstance, convertedParameters)
     }
 
     private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
@@ -87,6 +83,14 @@ data class CommandRoute(
                 return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
             }
         }
+    }
+
+    private fun executeWithParameters(invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
+        if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
+
+        this.checkAccess()
+
+        return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
     }
 
     private fun convertParameters(parameters: List<String>): List<Any?> {
