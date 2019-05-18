@@ -39,7 +39,7 @@ data class CommandRoute(
 
             return this.function.call(invokeInstance) as CommandResult
         } else {
-            if(parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
+            if (parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
         }
 
         if (this.hasOptionalParameters()) {
@@ -56,9 +56,7 @@ data class CommandRoute(
                         }
                     }
 
-                    if (!this.function.isAccessible) {
-                        this.function.isAccessible = true
-                    }
+                    this.checkAccess(this.function)
 
                     return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
                 }
@@ -77,16 +75,14 @@ data class CommandRoute(
                         invokeParameters.add(null)
                     }
 
-                    if (!this.function.isAccessible) {
-                        this.function.isAccessible = true
-                    }
+                    this.checkAccess(this.function)
 
                     return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
                 }
             }
         }
 
-        if(parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
+        if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
 
         val invokeParameters = this.parameters.mapIndexed { index, commandParameter ->
             try {
@@ -97,9 +93,7 @@ data class CommandRoute(
             }
         }
 
-        if (!this.function.isAccessible) {
-            this.function.isAccessible = true
-        }
+        this.checkAccess(this.function)
 
         return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
     }
@@ -111,6 +105,10 @@ data class CommandRoute(
      */
     private fun hasOptionalParameters(): Boolean {
         return this.parameters.any { it.optional }
+    }
+
+    private fun checkAccess(function: KFunction<*>) {
+        if (!this.function.isAccessible) this.function.isAccessible = true
     }
 
 }
