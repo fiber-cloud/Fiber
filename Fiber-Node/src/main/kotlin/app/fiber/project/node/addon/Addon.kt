@@ -2,7 +2,7 @@ package app.fiber.project.node.addon
 
 import app.fiber.project.node.addon.model.AddonInfo
 
-interface KtAddon {
+interface Addon {
     /**
      * Implement enable logic
      */
