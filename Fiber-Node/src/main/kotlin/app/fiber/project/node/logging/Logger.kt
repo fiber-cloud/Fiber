@@ -23,7 +23,7 @@ class Logger {
         return "\r[$level] [$time] $message"
     }
 
-    private fun printPrefix() = println("\r>")
+    private fun printPrefix() = print("\r>")
 
     //TODO files
 
