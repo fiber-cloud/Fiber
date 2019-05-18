@@ -22,6 +22,9 @@ object Versions {
     //Jackson
     const val jackson = "2.9.+"
 
+    //Zip4J
+    const val zip4j = "1.3.3"
+
 }
 
 object Dependencies {
@@ -47,6 +50,9 @@ object Dependencies {
     //Jackson
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}"
     const val jacksonYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}"
+
+    //Zip4J
+    const val zip4j = "net.lingala.zip4j:zip4j:${Versions.zip4j}"
 
 }
 

@@ -1,9 +1,12 @@
 package app.fiber.project.node.logging
 
+import app.fiber.project.node.logging.file.FileLogger
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class Logger {
+
+    private val fileLogger = FileLogger()
 
     fun debug(message: String) = this.print(LogLevel.DEBUG, message)
 
@@ -14,7 +17,9 @@ class Logger {
     fun error(message: String) = this.print(LogLevel.ERROR, message)
 
     private fun print(level: LogLevel, message: String, newLine: Boolean = true) {
-        println(this.formatLog(level, message))
+        val log = this.formatLog(level, message)
+        println(log)
+        this.fileLogger.log(log)
         if(newLine) this.printPrefix()
     }
 
@@ -24,7 +29,5 @@ class Logger {
     }
 
     private fun printPrefix() = print("\r>")
-
-    //TODO files
 
 }

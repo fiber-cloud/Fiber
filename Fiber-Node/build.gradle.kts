@@ -16,6 +16,7 @@ dependencies {
 
     implementation(Dependencies.joptSimple)
     implementation(Dependencies.koin)
+    implementation(Dependencies.zip4j)
 }
 
 this.tasks.withType<ShadowJar> {
