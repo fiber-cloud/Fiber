@@ -42,43 +42,7 @@ data class CommandRoute(
             if (parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
         }
 
-        if (this.hasOptionalParameters()) {
-            when {
-                parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
-
-                parameters.size == this.parameters.size -> {
-                    val invokeParameters = try {
-                        this.convertParameters(parameters)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        return CommandResult.CONVERTER_ERROR
-                    }
-
-                    this.checkAccess()
-
-                    return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
-                }
-
-                else -> {
-                    val invokeParameters: MutableList<Any?> = parameters.mapIndexed { index, commandParameter ->
-                        try {
-                            InputConverterRegistry.inputConverter(this.parameters.elementAt(index).type)!!.convert(commandParameter)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            return CommandResult.CONVERTER_ERROR
-                        }
-                    } as MutableList<Any?>
-
-                    repeat(this.parameters.size - parameters.size) {
-                        invokeParameters.add(null)
-                    }
-
-                    this.checkAccess()
-
-                    return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
-                }
-            }
-        }
+        if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance)
 
         if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
 
@@ -92,6 +56,44 @@ data class CommandRoute(
         this.checkAccess()
 
         return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+    }
+
+    private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any): CommandResult {
+        when {
+            parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
+
+            parameters.size == this.parameters.size -> {
+                val invokeParameters = try {
+                    this.convertParameters(parameters)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    return CommandResult.CONVERTER_ERROR
+                }
+
+                this.checkAccess()
+
+                return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+            }
+
+            else -> {
+                val invokeParameters: MutableList<Any?> = parameters.mapIndexed { index, commandParameter ->
+                    try {
+                        InputConverterRegistry.inputConverter(this.parameters.elementAt(index).type)!!.convert(commandParameter)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        return CommandResult.CONVERTER_ERROR
+                    }
+                } as MutableList<Any?>
+
+                repeat(this.parameters.size - parameters.size) {
+                    invokeParameters.add(null)
+                }
+
+                this.checkAccess()
+
+                return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+            }
+        }
     }
 
     private fun convertParameters(parameters: List<String>): List<Any?> {
