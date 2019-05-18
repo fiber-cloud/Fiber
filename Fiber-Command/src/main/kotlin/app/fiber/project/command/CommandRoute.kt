@@ -47,13 +47,11 @@ data class CommandRoute(
                 parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
 
                 parameters.size == this.parameters.size -> {
-                    val invokeParameters = this.parameters.mapIndexed { index, commandParameter ->
-                        try {
-                            InputConverterRegistry.inputConverter(commandParameter.type)!!.convert(parameters[index])
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            return CommandResult.CONVERTER_ERROR
-                        }
+                    val invokeParameters = try {
+                        this.convertParameters(parameters)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        return CommandResult.CONVERTER_ERROR
                     }
 
                     this.checkAccess()
@@ -84,18 +82,22 @@ data class CommandRoute(
 
         if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
 
-        val invokeParameters = this.parameters.mapIndexed { index, commandParameter ->
-            try {
-                InputConverterRegistry.inputConverter(commandParameter.type)!!.convert(parameters[index])
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return CommandResult.CONVERTER_ERROR
-            }
+        val invokeParameters = try {
+            this.convertParameters(parameters)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return CommandResult.CONVERTER_ERROR
         }
 
         this.checkAccess()
 
         return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+    }
+
+    private fun convertParameters(parameters: List<String>): List<Any?> {
+        return this.parameters.mapIndexed { index, commandParameter ->
+            InputConverterRegistry.inputConverter(commandParameter.type)!!.convert(parameters[index])
+        }
     }
 
     /**
