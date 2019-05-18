@@ -42,37 +42,30 @@ data class CommandRoute(
             if (parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
         }
 
-        if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance)
-
-        if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
-
-        val invokeParameters = try {
+        val convertedParameters = try {
             this.convertParameters(parameters)
         } catch (e: Exception) {
             e.printStackTrace()
             return CommandResult.CONVERTER_ERROR
         }
 
+        if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance, convertedParameters)
+
+        if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
+
         this.checkAccess()
 
-        return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+        return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
     }
 
-    private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any): CommandResult {
+    private fun executeWithOptionalParameters(parameters: List<String>, invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
         when {
             parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
 
             parameters.size == this.parameters.size -> {
-                val invokeParameters = try {
-                    this.convertParameters(parameters)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    return CommandResult.CONVERTER_ERROR
-                }
-
                 this.checkAccess()
 
-                return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
+                return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
             }
 
             else -> {
