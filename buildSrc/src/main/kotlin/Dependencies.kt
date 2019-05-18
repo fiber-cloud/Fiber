@@ -32,6 +32,10 @@ object Dependencies {
     //Kotlin
     const val kotlinStandard = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+    const val kotlinCompilerEmbeddable = "org.jetbrains.kotlin:kotlin-compiler-embeddable:${Versions.kotlin}"
+    const val kotlinScriptUtil = "org.jetbrains.kotlin:kotlin-script-util:${Versions.kotlin}"
+    const val kotlinScriptingCompilerEmbeddable = "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:${Versions.kotlin}"
+    const val kotlinScriptRuntime = "org.jetbrains.kotlin:kotlin-script-runtime:${Versions.kotlin}"
     const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
 
     //Docker

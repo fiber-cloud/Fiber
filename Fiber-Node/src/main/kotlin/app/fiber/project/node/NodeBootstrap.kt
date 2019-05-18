@@ -15,7 +15,6 @@ object NodeBootstrap : KoinComponent {
         startKoin {
             modules(nodeModule)
         }
-
         val parser = OptionParser()
         parser.allowsUnrecognizedOptions()
 
