@@ -56,7 +56,7 @@ data class CommandRoute(
                         }
                     }
 
-                    this.checkAccess(this.function)
+                    this.checkAccess()
 
                     return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
                 }
@@ -75,7 +75,7 @@ data class CommandRoute(
                         invokeParameters.add(null)
                     }
 
-                    this.checkAccess(this.function)
+                    this.checkAccess()
 
                     return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
                 }
@@ -93,7 +93,7 @@ data class CommandRoute(
             }
         }
 
-        this.checkAccess(this.function)
+        this.checkAccess()
 
         return this.function.call(invokeInstance, *invokeParameters.toTypedArray()) as CommandResult
     }
@@ -107,7 +107,7 @@ data class CommandRoute(
         return this.parameters.any { it.optional }
     }
 
-    private fun checkAccess(function: KFunction<*>) {
+    private fun checkAccess() {
         if (!this.function.isAccessible) this.function.isAccessible = true
     }
 
