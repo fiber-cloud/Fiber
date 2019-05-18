@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(Dependencies.kotlinStandard)
+    implementation(Dependencies.kotlinReflect)
 
     implementation(Dependencies.joptSimple)
     implementation(Dependencies.koin)
