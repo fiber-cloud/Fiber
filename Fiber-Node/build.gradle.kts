@@ -14,6 +14,10 @@ repositories {
 dependencies {
     implementation(Dependencies.kotlinStandard)
     implementation(Dependencies.kotlinReflect)
+    implementation(Dependencies.kotlinScriptingCompilerEmbeddable)
+    implementation(Dependencies.kotlinCompilerEmbeddable)
+    implementation(Dependencies.kotlinScriptUtil)
+    implementation(Dependencies.kotlinScriptRuntime)
 
     implementation(Dependencies.koin)
 
