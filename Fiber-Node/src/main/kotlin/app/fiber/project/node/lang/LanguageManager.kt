@@ -8,7 +8,7 @@ object LanguageManager {
 
     fun loadLanguage(language: String = this.getLanguage()) {
         this.language = Language(Properties()
-            .also { it.load(Thread.currentThread().contextClassLoader.getResourceAsStream("$language.lang")!!) }
+            .also { it.load(Thread.currentThread().contextClassLoader.getResourceAsStream("lang/$language.lang")!!) }
         )
     }
 
