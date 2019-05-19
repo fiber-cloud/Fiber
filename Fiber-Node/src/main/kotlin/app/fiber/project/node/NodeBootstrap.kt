@@ -1,6 +1,7 @@
 package app.fiber.project.node
 
 import app.fiber.project.node.injection.nodeModule
+import app.fiber.project.node.lang.LanguageManager
 import app.fiber.project.node.logging.Logger
 import app.fiber.project.node.misc.SecurityChecker
 import joptsimple.OptionParser
@@ -16,6 +17,9 @@ object NodeBootstrap : KoinComponent {
         startKoin {
             modules(nodeModule)
         }
+
+        LanguageManager.loadLanguage()
+
         val parser = OptionParser()
         parser.allowsUnrecognizedOptions()
 
