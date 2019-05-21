@@ -7,7 +7,6 @@ import java.util.*
 data class ProxyGroup(
     override val name: String,
     override val uuid: UUID,
-    override var minInstances: Int,
-    override var maxInstances: Int,
+    override var instances: IntRange,
     var fallback: ServerGroup?
-) : Group(name, uuid, minInstances, maxInstances)
+) : Group(name, uuid, instances)

@@ -25,21 +25,7 @@ class ProcessDeployer : Deployer, KoinComponent {
 
         this.eventBus.fire(PreDeployEvent(jarDeployable))
 
-        val deployProfile = jarDeployable.deployProfile
-        val startCommand = mutableListOf(
-            "java",
-            "-Xms${deployProfile.initialMemorySize}${deployProfile.memoryUnit.marker}",
-            "-Xmx${deployProfile.maximalMemorySize}${deployProfile.memoryUnit.marker}"
-        )
-
-        deployProfile.systemProperties.forEach { startCommand.add("-D$it") }
-
-        startCommand.addAll(listOf(
-            "-jar",
-            jarDeployable.jarFile.toString()
-        ))
-
-        startCommand.addAll(jarDeployable.startParameters)
+        val startCommand = this.buildStartCommand(jarDeployable)
 
         this.logger.debug(startCommand.toString())
 
@@ -59,5 +45,25 @@ class ProcessDeployer : Deployer, KoinComponent {
     }
 
     override fun isAvailable() = true
+
+    private fun buildStartCommand(jarDeployable: JarDeployable): List<String> {
+        val deployProfile = jarDeployable.deployProfile
+        val startCommand = mutableListOf(
+            "java",
+            "-Xms${deployProfile.initialMemorySize}${deployProfile.memoryUnit.marker}",
+            "-Xmx${deployProfile.maximalMemorySize}${deployProfile.memoryUnit.marker}"
+        )
+
+        deployProfile.systemProperties.forEach { startCommand.add("-D$it") }
+
+        startCommand.addAll(listOf(
+            "-jar",
+            jarDeployable.jarFile.toString()
+        ))
+
+        startCommand.addAll(jarDeployable.startParameters)
+
+        return startCommand
+    }
 
 }

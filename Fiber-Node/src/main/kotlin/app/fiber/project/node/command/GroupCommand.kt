@@ -29,13 +29,12 @@ class ProxyCommand : KoinComponent {
     @Parameters(
         [
             Parameter("name", String::class, "Name of the proxy group"),
-            Parameter("minInstances", Int::class, "Minimum of proxies, that should be online"),
-            Parameter("maxInstances", Int::class, "Maximum of proxies, that should be online"),
+            Parameter("instances", IntRange::class, "Range of instances of the proxy group"),
             Parameter("fallback", ServerGroup::class, "Fallback server group", true)
         ]
     )
-    fun addGroup(name: String, minInstances: Int, maxInstances: Int, fallback: ServerGroup?): CommandResult {
-        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), minInstances, maxInstances, fallback)
+    fun addGroup(name: String, instances: IntRange, fallback: ServerGroup?): CommandResult {
+        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, fallback)
 
         this.proxyRegistry.add(proxyGroup)
         this.logger.info("Added proxy group $name")
@@ -74,14 +73,13 @@ class ServerCommand : KoinComponent {
     @Parameters(
         [
             Parameter("name", String::class, "Name of the server group"),
-            Parameter("minInstances", Int::class, "Minimum of servers, that should be online"),
-            Parameter("maxInstances", Int::class, "Maximum of servers, that should be online"),
+            Parameter("instances", IntRange::class, "Range of instances of the server group"),
             Parameter("priority", Int::class, "Priority to start the group"),
             Parameter("type", ServerType::class, "Type of the server")
         ]
     )
-    fun addGroup(name: String, minInstances: Int, maxInstances: Int, priority: Int, type: ServerType): CommandResult {
-        val serverGroup = ServerGroup(name, UUID.randomUUID(), minInstances, maxInstances, priority, type)
+    fun addGroup(name: String, instances: IntRange, priority: Int, type: ServerType): CommandResult {
+        val serverGroup = ServerGroup(name, UUID.randomUUID(), instances, priority, type)
 
         this.serverRegistry.add(serverGroup)
         this.logger.info("Added server group $name")

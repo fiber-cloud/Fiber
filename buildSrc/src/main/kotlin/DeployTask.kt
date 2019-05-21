@@ -61,22 +61,23 @@ open class DeployTask : DefaultTask() {
 
             println("Release created")
 
-            launch(Dispatchers.IO) {
-                val jsonContent = response.readText()
-                this@DeployTask.uploadUrl =
-                    jacksonObjectMapper().readValue(jsonContent, ObjectNode::class.java).get("upload_url").textValue()
-                        ?: throw GradleException("Upload url not found!")
-            }
+            this@DeployTask.readAndSetUploadUrl(response)
+        }
+    }
+
+    private fun readAndSetUploadUrl(response: HttpResponse) = runBlocking {
+        launch(Dispatchers.IO) {
+            val jsonContent = response.readText()
+            this@DeployTask.uploadUrl =
+                jacksonObjectMapper().readValue(jsonContent, ObjectNode::class.java).get("upload_url").textValue()
+                    ?: throw GradleException("Upload url not found!")
         }
     }
 
     private fun uploadJar(client: HttpClient) {
         if (this.uploadUrl.isEmpty()) throw GradleException("Upload url is empty!")
 
-        val jarAsset = Paths.get(
-            this.project.rootProject.rootDir.absolutePath,
-            "Fiber-Node/build/libs/Fiber-Node-${this.project.version}.jar"
-        )
+        val jarAsset = this.getRootFile("Fiber-Node/build/libs/Fiber-Node-${this.project.version}.jar")
         val url = this.uploadUrl.removeSuffix("{?name,label}").plus("?name=Fiber-Node.jar")
 
         runBlocking {
@@ -97,11 +98,13 @@ open class DeployTask : DefaultTask() {
     }
 
     private fun loadChangelog(): String {
-        val changelog = Paths.get(this.project.rootProject.rootDir.absolutePath, ".changelog/${this.project.version}.md")
+        val changelog = this.getRootFile(".changelog/${this.project.version}.md")
         if (Files.notExists(changelog)) throw GradleException("No changelog created!")
 
         return changelog.toFile().readText()
     }
+
+    private fun getRootFile(path: String) = Paths.get(this.project.rootProject.rootDir.absolutePath, path)
 
 }
 
