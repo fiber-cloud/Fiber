@@ -6,10 +6,10 @@ import app.fiber.project.command.annotation.Parameters
 import app.fiber.project.command.annotation.Route
 import app.fiber.project.command.result.CommandResult
 import app.fiber.project.node.logging.Logger
+import app.fiber.project.node.software.ProxyGroupRegistry
+import app.fiber.project.node.software.ServerGroupRegistry
 import app.fiber.project.node.software.proxy.ProxyGroup
-import app.fiber.project.node.software.proxy.ProxyGroupRegistry
 import app.fiber.project.node.software.server.ServerGroup
-import app.fiber.project.node.software.server.ServerGroupRegistry
 import app.fiber.project.node.software.server.ServerType
 import org.koin.core.KoinComponent
 import org.koin.core.inject
