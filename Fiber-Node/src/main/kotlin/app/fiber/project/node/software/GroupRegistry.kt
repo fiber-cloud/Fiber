@@ -3,8 +3,8 @@ package app.fiber.project.node.software
 import app.fiber.project.node.software.proxy.ProxyGroup
 import app.fiber.project.node.software.server.ServerGroup
 
-class ServerGroupRegistry: GroupRegistry<ServerGroup>()
-class ProxyGroupRegistry: GroupRegistry<ProxyGroup>()
+class ServerGroupRegistry : GroupRegistry<ServerGroup>()
+class ProxyGroupRegistry : GroupRegistry<ProxyGroup>()
 
 abstract class GroupRegistry<T : Group> {
 
