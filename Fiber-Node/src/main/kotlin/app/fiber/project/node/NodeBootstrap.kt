@@ -1,7 +1,9 @@
 package app.fiber.project.node
 
 import app.fiber.project.node.injection.nodeModule
+import app.fiber.project.node.lang.LanguageManager
 import app.fiber.project.node.logging.Logger
+import app.fiber.project.node.misc.SecurityChecker
 import joptsimple.OptionParser
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
@@ -16,12 +18,15 @@ object NodeBootstrap : KoinComponent {
             modules(nodeModule)
         }
 
+        LanguageManager.loadLanguage()
+
         val parser = OptionParser()
         parser.allowsUnrecognizedOptions()
 
         parser.acceptsAll(listOf("h", "help"), "Prints help")
         parser.acceptsAll(listOf("v", "version"), "Prints current version")
         parser.accepts("time", "Prints startup time")
+        parser.accepts("allow-root", "Allows usage as root user. Use for debugging only !")
 
         val optionSet = parser.parse(*args)
 
@@ -36,6 +41,8 @@ object NodeBootstrap : KoinComponent {
             logger.info("Current version: ${Node.version()}", false)
             return
         }
+
+        if (!optionSet.has("allow-root")) SecurityChecker.checkRoot()
 
         Runtime.getRuntime().addShutdownHook(Thread(Node::stop))
         Node.start()

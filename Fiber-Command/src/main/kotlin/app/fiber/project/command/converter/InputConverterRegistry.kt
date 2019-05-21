@@ -1,6 +1,7 @@
 package app.fiber.project.command.converter
 
 import app.fiber.project.command.converter.impl.IntInputConverter
+import app.fiber.project.command.converter.impl.IntRangeConverter
 import app.fiber.project.command.converter.impl.StringInputConverter
 import kotlin.reflect.KClass
 
@@ -15,7 +16,8 @@ object InputConverterRegistry {
     /**
      * List of registered [InputConverter].
      */
-    private val inputConverters = mutableListOf<InputConverter<*>>(StringInputConverter, IntInputConverter)
+    private val inputConverters =
+        mutableListOf<InputConverter<*>>(StringInputConverter, IntInputConverter, IntRangeConverter)
 
     /**
      * Register an [InputConverter].
