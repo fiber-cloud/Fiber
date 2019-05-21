@@ -5,7 +5,7 @@ import java.nio.file.Path
 
 data class JarDeployable (
     val jarFile: Path,
-    val workingDirectory: Path, 
+    val workingDirectory: Path,
     val startParameters: List<String>,
     val deployProfile: DeployProfile
 )
