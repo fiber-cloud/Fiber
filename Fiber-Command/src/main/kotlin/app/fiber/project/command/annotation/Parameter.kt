@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.FUNCTION)
 annotation class Parameter(
         val name: String,
-        val type: KClass<*>,
         val description: String,
+        val type: KClass<*> = String::class,
         val optional: Boolean = false
 )

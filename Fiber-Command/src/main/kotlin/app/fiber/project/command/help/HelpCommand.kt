@@ -33,7 +33,7 @@ class HelpCommand(private val info: (String) -> Unit, private val warn: (String)
      * @param [command] Print help on this command.
      */
     @Route("command", "Get help for a specific command")
-    @Parameter("command", String::class, "Get help for this command")
+    @Parameter("command", "Get help for this command")
     fun helpForCommand(command: String): CommandResult {
         val commandModel = CommandExecutor.commandModel(command) ?: return CommandResult.FAILED
 

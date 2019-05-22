@@ -28,9 +28,9 @@ class ProxyCommand : KoinComponent {
     @Route("add", "Adds a proxy group")
     @Parameters(
         [
-            Parameter("name", String::class, "Name of the proxy group"),
-            Parameter("instances", IntRange::class, "Range of instances of the proxy group"),
-            Parameter("fallback", ServerGroup::class, "Fallback server group", true)
+            Parameter("name", "Name of the proxy group"),
+            Parameter("instances", "Range of instances of the proxy group", IntRange::class),
+            Parameter("fallback", "Fallback server group", ServerGroup::class, true)
         ]
     )
     fun addGroup(name: String, instances: IntRange, fallback: ServerGroup?): CommandResult {
@@ -43,7 +43,7 @@ class ProxyCommand : KoinComponent {
     }
 
     @Route("remove", "Removes a proxy group")
-    @Parameter("name", String::class, "Name of the proxy group")
+    @Parameter("name", "Name of the proxy group")
     fun removeGroup(name: String): CommandResult {
         val proxyGroup = this.proxyRegistry.findByName(name)
 
@@ -72,10 +72,10 @@ class ServerCommand : KoinComponent {
     @Route("add", "Adds a server group")
     @Parameters(
         [
-            Parameter("name", String::class, "Name of the server group"),
-            Parameter("instances", IntRange::class, "Range of instances of the server group"),
-            Parameter("priority", Int::class, "Priority to start the group"),
-            Parameter("type", ServerType::class, "Type of the server")
+            Parameter("name", "Name of the server group"),
+            Parameter("instances", "Range of instances of the server group", IntRange::class),
+            Parameter("priority", "Priority to start the group", Int::class),
+            Parameter("type", "Type of the server", ServerType::class)
         ]
     )
     fun addGroup(name: String, instances: IntRange, priority: Int, type: ServerType): CommandResult {
@@ -88,7 +88,7 @@ class ServerCommand : KoinComponent {
     }
 
     @Route("remove", "Removes a server group")
-    @Parameter("name", String::class, "Name of the server group")
+    @Parameter("name", "Name of the server group")
     fun removeGroup(name: String): CommandResult {
         val serverGroup = this.serverRegistry.findByName(name)
 
