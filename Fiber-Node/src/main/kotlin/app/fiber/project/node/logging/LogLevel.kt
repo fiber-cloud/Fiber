@@ -9,4 +9,6 @@ enum class LogLevel {
 
     override fun toString() = this.name.toLowerCase().capitalize()
 
+    fun level() = this.ordinal
+
 }

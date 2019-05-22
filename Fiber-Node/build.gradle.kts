@@ -21,6 +21,9 @@ dependencies {
 
     implementation(Dependencies.koin)
 
+    implementation(Dependencies.jacksonYaml)
+    implementation(Dependencies.jacksonKotlin)
+
     implementation(Dependencies.joptSimple)
     implementation(Dependencies.zip4j)
 

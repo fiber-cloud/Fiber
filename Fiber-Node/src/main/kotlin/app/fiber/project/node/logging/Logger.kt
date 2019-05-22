@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter
 
 class Logger {
 
+    var logLevel: LogLevel = LogLevel.INFO
+
     private val fileLogger = FileLogger()
 
     fun debug(message: String) = this.print(LogLevel.DEBUG, message)
@@ -17,6 +19,8 @@ class Logger {
     fun error(message: String) = this.print(LogLevel.ERROR, message)
 
     private fun print(level: LogLevel, message: String, newLine: Boolean = true) {
+        if(level.level() < this.logLevel.level()) return
+
         val log = this.formatLog(level, message)
         println(log)
         this.fileLogger.log(log)
