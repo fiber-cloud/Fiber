@@ -1,3 +1,3 @@
 package app.fiber.project.node.lang
 
-fun String.translate() = LanguageManager.language?.properties?.getProperty(this)?: this
+fun String.translate(vararg params: String) = LanguageManager.language?.translate(this, params)?: this
