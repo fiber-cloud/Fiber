@@ -7,13 +7,14 @@
 # IntelliJ
 
 out
-.idea
+.idea/*
 *.ipr
 *.iws
 *.iml
-
+!.idea/runConfigurations
 
 # Fiber
+
 working/
 addons/
 logs/
