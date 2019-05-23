@@ -28,6 +28,7 @@ dependencies {
     implementation(Dependencies.zip4j)
 
     implementation(project(":Fiber-Command"))
+    implementation(project(":Fiber-Config"))
 }
 
 this.tasks.withType<ShadowJar> {
