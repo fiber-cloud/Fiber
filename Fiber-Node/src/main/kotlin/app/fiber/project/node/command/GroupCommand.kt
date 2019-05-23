@@ -11,6 +11,7 @@ import app.fiber.project.node.software.ServerGroupRegistry
 import app.fiber.project.node.software.proxy.ProxyGroup
 import app.fiber.project.node.software.server.ServerGroup
 import app.fiber.project.node.software.server.ServerType
+import app.fiber.project.node.template.Template
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
@@ -30,11 +31,12 @@ class ProxyCommand : KoinComponent {
         [
             Parameter("name", "Name of the proxy group"),
             Parameter("instances", "Range of instances of the proxy group", IntRange::class),
+            Parameter("template", "Template of the proxy group", Template::class),
             Parameter("fallback", "Fallback server group", ServerGroup::class, true)
         ]
     )
-    fun addGroup(name: String, instances: IntRange, fallback: ServerGroup?): CommandResult {
-        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, fallback)
+    fun addGroup(name: String, instances: IntRange, template: Template, fallback: ServerGroup?): CommandResult {
+        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, template, fallback)
 
         this.proxyRegistry.add(proxyGroup)
         this.logger.info("Added proxy group $name")
@@ -58,7 +60,25 @@ class ProxyCommand : KoinComponent {
         return CommandResult.SUCCESS
     }
 
-    fun listGroups(): Nothing = TODO()
+    @Route("list", "List all proxy groups")
+    fun listGroups(): CommandResult {
+        if (this.proxyRegistry.groups.isEmpty()) {
+            this.logger.info("There are no proxy groups")
+            return CommandResult.SUCCESS
+        }
+
+        this.logger.info("<-- Proxy Groups -->")
+        this.logger.info("")
+
+        this.proxyRegistry.groups.forEachIndexed { index, it ->
+            this.logger.info(
+                "${index + 1}: Name=${it.name}, Template=${it.template.name}"
+            )
+        }
+        this.logger.info("")
+
+        return CommandResult.SUCCESS
+    }
 
 }
 
@@ -74,12 +94,19 @@ class ServerCommand : KoinComponent {
         [
             Parameter("name", "Name of the server group"),
             Parameter("instances", "Range of instances of the server group", IntRange::class),
+            Parameter("template", "Template of the proxy group", Template::class),
             Parameter("priority", "Priority to start the group", Int::class),
             Parameter("type", "Type of the server", ServerType::class)
         ]
     )
-    fun addGroup(name: String, instances: IntRange, priority: Int, type: ServerType): CommandResult {
-        val serverGroup = ServerGroup(name, UUID.randomUUID(), instances, priority, type)
+    fun addGroup(
+        name: String,
+        instances: IntRange,
+        template: Template,
+        priority: Int,
+        type: ServerType
+    ): CommandResult {
+        val serverGroup = ServerGroup(name, UUID.randomUUID(), instances, template, priority, type)
 
         this.serverRegistry.add(serverGroup)
         this.logger.info("Added server group $name")
@@ -103,6 +130,24 @@ class ServerCommand : KoinComponent {
         return CommandResult.SUCCESS
     }
 
-    fun listGroups(): Nothing = TODO()
+    @Route("list", "List all server groups")
+    fun listGroups(): CommandResult {
+        if (this.serverRegistry.groups.isEmpty()) {
+            this.logger.info("There are no server groups")
+            return CommandResult.SUCCESS
+        }
+
+        this.logger.info("<-- Server Groups -->")
+        this.logger.info("")
+
+        this.serverRegistry.groups.forEachIndexed { index, it ->
+            this.logger.info(
+                "${index + 1}: Name=${it.name}, Priority=${it.priority}, Template=${it.template.name}"
+            )
+        }
+        this.logger.info("")
+
+        return CommandResult.SUCCESS
+    }
 
 }
