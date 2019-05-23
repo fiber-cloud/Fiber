@@ -6,7 +6,6 @@ import app.fiber.project.node.logging.Logger
 import app.fiber.project.node.logging.asciiArt
 import app.fiber.project.node.pipeline.impl.StartPipeline
 import app.fiber.project.node.pipeline.impl.StopPipeline
-import kotlinx.coroutines.runBlocking
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -21,20 +20,18 @@ object Node : KoinComponent {
 
         StartPipeline().execute()
 
-        runBlocking {
-            while (true) {
-                val input = readLine() ?: break
+        while (true) {
+            val input = readLine() ?: break
 
-                val warning: String = when (CommandExecutor.execute(input)) {
-                    CommandResult.WRONG_PARAMETERS -> "Parameters were not used right!"
-                    CommandResult.COMMAND_NOT_FOUND -> "Command not found!"
-                    CommandResult.ROUTE_NOT_FOUND -> "Route not found!"
-                    CommandResult.UNUSABLE_INPUT -> "The input could not be processed!"
-                    else -> ""
-                }
-
-                if (warning.isNotEmpty()) this@Node.logger.warn(warning)
+            val warning: String = when (CommandExecutor.execute(input)) {
+                CommandResult.WRONG_PARAMETERS -> "Parameters were not used right!"
+                CommandResult.COMMAND_NOT_FOUND -> "Command not found!"
+                CommandResult.ROUTE_NOT_FOUND -> "Route not found!"
+                CommandResult.UNUSABLE_INPUT -> "The input could not be processed!"
+                else -> ""
             }
+
+            if (warning.isNotEmpty()) this@Node.logger.warn(warning)
         }
     }
 
