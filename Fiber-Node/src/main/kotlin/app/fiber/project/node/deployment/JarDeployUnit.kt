@@ -1,11 +1,11 @@
 package app.fiber.project.node.deployment
 
-import app.fiber.project.node.deployment.profile.DeployProfile
+import app.fiber.project.node.deployment.profile.DeploymentProfile
 import java.nio.file.Path
 
-data class JarDeployable (
+data class JarDeployUnit (
     val jarFile: Path,
     val workingDirectory: Path,
     val startParameters: List<String>,
-    val deployProfile: DeployProfile
+    val deploymentProfile: DeploymentProfile
 )
