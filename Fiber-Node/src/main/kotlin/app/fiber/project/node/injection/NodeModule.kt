@@ -13,6 +13,7 @@ val nodeModule = module {
     single { Logger() }
     single { AddonManager(get()) }
     single { EventBus() }
+
     single { ProxyGroupRegistry() }
     single { ServerGroupRegistry() }
     single { TemplateRegistry() }
