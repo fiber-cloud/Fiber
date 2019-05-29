@@ -11,6 +11,7 @@ import app.fiber.project.node.command.converter.TemplateConverter
 import app.fiber.project.node.config.DeploymentProfileConfig
 import app.fiber.project.node.pipeline.Pipeline
 import app.fiber.project.node.pipeline.Stage
+import app.fiber.project.node.template.resources.ResourcesTreeCreator
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -35,5 +36,8 @@ class StartPipeline : Pipeline, KoinComponent {
         ConfigRegistry.register(DeploymentProfileConfig())
         ConfigRegistry.init()
     }
+
+    @Stage(4)
+    fun createResourcesTree() = ResourcesTreeCreator().createResourcesTree()
 
 }
