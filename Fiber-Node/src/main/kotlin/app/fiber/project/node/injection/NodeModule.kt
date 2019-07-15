@@ -9,9 +9,9 @@ import app.fiber.project.node.software.ServerGroupRegistry
 import app.fiber.project.node.template.TemplateRegistry
 import org.koin.dsl.module
 
-val nodeModule = module {
+internal val nodeModule = module {
     single { Logger() }
-    single { AddonManager(get()) }
+    single { AddonManager() }
     single { EventBus() }
 
     single { ProxyGroupRegistry() }
