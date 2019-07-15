@@ -1,6 +1,8 @@
-package app.fiber.project.node.event
+package app.fiber.project.node.addon
 
 import kotlin.reflect.KClass
+
+interface Event
 
 typealias EventListener = (Event) -> Unit
 

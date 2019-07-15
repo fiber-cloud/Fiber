@@ -6,7 +6,7 @@ import app.fiber.project.node.deployment.event.PostDeploymentEvent
 import app.fiber.project.node.deployment.event.PreDeploymentEvent
 import app.fiber.project.node.deployment.impl.process.result.ProcessDeploymentResult
 import app.fiber.project.node.deployment.result.DeploymentResult
-import app.fiber.project.node.event.EventBus
+import app.fiber.project.node.addon.EventBus
 import app.fiber.project.node.logging.Logger
 import org.koin.core.KoinComponent
 import org.koin.core.inject
