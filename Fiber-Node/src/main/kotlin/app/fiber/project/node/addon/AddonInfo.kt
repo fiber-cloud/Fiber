@@ -1,4 +1,4 @@
-package app.fiber.project.node.addon.model
+package app.fiber.project.node.addon
 
 data class AddonInfo (
     val name: String,
