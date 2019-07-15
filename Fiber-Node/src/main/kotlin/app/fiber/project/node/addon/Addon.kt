@@ -4,12 +4,12 @@ interface Addon {
     /**
      * Implement enable logic
      */
-    fun onEnable()
+    fun onEnable() {}
 
     /**
      * Implement disable logic
      */
-    fun onDisable()
+    fun onDisable() {}
 
     /**
      * Implement getter for AddonInfo
