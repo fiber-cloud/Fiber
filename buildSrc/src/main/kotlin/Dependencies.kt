@@ -23,8 +23,7 @@ object Versions {
     const val jackson = "2.9.+"
 
     //Zip4J
-    //TODO update version to 2.+
-    const val zip4j = "1.3.3"
+    const val zip4j = "2.1.1"
 
 }
 

@@ -1,8 +1,9 @@
 package app.fiber.project.node.logging.file
 
-import net.lingala.zip4j.core.ZipFile
+import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.model.ZipParameters
-import net.lingala.zip4j.util.Zip4jConstants
+import net.lingala.zip4j.model.enums.CompressionLevel
+import net.lingala.zip4j.model.enums.CompressionMethod
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
@@ -33,11 +34,11 @@ class FileLogger {
         }
     }
 
-    fun clearLog() = this.logDirectory.toFile().listFiles().forEach { Files.delete(it.toPath()) }
+    fun clearLog() = this.logDirectory.toFile().listFiles()?.forEach { Files.delete(it.toPath()) }
 
     private fun archiveLatestLog() = ZipFile(this.nameForZip()).addFile(this.latest.toFile(), ZipParameters().apply {
-        this.compressionMethod = Zip4jConstants.COMP_DEFLATE
-        this.compressionLevel = Zip4jConstants.DEFLATE_LEVEL_NORMAL
+        this.compressionMethod = CompressionMethod.DEFLATE
+        this.compressionLevel = CompressionLevel.NORMAL
     })
 
     private fun nameForZip(): String {
