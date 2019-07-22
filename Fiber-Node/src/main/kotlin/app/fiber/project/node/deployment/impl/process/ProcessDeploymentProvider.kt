@@ -6,7 +6,7 @@ import app.fiber.project.node.deployment.event.PostDeploymentEvent
 import app.fiber.project.node.deployment.event.PreDeploymentEvent
 import app.fiber.project.node.deployment.impl.process.result.ProcessDeploymentResult
 import app.fiber.project.node.deployment.result.DeploymentResult
-import app.fiber.project.node.event.EventBus
+import app.fiber.project.node.addon.EventBus
 import app.fiber.project.node.logging.Logger
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -53,23 +53,24 @@ class ProcessDeploymentProvider : DeploymentProvider, KoinComponent {
     override fun isAvailable() = true
 
     private fun buildStartCommand(jarDeployUnit: JarDeployUnit): List<String> {
-        val deployProfile = jarDeployUnit.deploymentProfile
-        val startCommand = mutableListOf(
-            "java",
-            "-Xms${deployProfile.initialMemorySize}${deployProfile.memoryUnit.marker}",
-            "-Xmx${deployProfile.maximalMemorySize}${deployProfile.memoryUnit.marker}"
-        )
+        with(jarDeployUnit.deploymentProfile) {
+            val startCommand = mutableListOf(
+                "java",
+                "-Xms$initialMemorySize${memoryUnit.marker}",
+                "-Xmx$maximalMemorySize${memoryUnit.marker}"
+            )
 
-        deployProfile.systemProperties.forEach { startCommand.add("-D${it.key}=${it.value}") }
+            systemProperties.forEach { startCommand.add("-D${it.key}=${it.value}") }
 
-        startCommand.addAll(listOf(
-            "-jar",
-            jarDeployUnit.jarFile.toString()
-        ))
+            startCommand.addAll(listOf(
+                "-jar",
+                jarDeployUnit.jarFile.toString()
+            ))
 
-        startCommand.addAll(jarDeployUnit.startParameters)
+            startCommand.addAll(jarDeployUnit.startParameters)
 
-        return startCommand
+            return startCommand
+        }
     }
 
 }

@@ -1,17 +1,15 @@
 package app.fiber.project.node.addon
 
-import app.fiber.project.node.addon.model.AddonInfo
-
 interface Addon {
     /**
      * Implement enable logic
      */
-    fun onEnable()
+    fun onEnable() {}
 
     /**
      * Implement disable logic
      */
-    fun onDisable()
+    fun onDisable() {}
 
     /**
      * Implement getter for AddonInfo
