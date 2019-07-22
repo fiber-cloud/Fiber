@@ -4,6 +4,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 object SecurityChecker {
+
     /**
      * Check for root on unix, but ignores Docker
      */
@@ -16,7 +17,7 @@ object SecurityChecker {
                 //the docker file doesn't exist; root check
                 val user = Runtime.getRuntime().exec("whoami").inputStream.reader().readText().trim()
                 if (user == "root") {
-                    throw RuntimeException("The Fiber-cloud shouldn't be executed as the root user !")
+                    throw RuntimeException("Fiber shouldn't be executed as the root user!")
                 }
             }
         }
