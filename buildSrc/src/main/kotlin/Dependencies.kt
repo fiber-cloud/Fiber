@@ -1,14 +1,14 @@
 object Versions {
 
     //Gradle Plugins
-    const val shadow = "5.0.0"
+    const val shadow = "5.1.0"
 
     //Kotlin
     const val kotlin = "1.3.41"
-    const val coroutines = "1.1.1"
+    const val coroutines = "1.3.0-RC"
 
     //Docker
-    const val dockerClient = "8.15.2"
+    const val dockerClient = "8.16.0"
 
     //Logback
     const val logback = "1.2.3"
@@ -17,12 +17,13 @@ object Versions {
     const val joptSimple = "5.0.4"
 
     //Koin
-    const val koin = "2.+"
+    const val koin = "2.0.1"
 
     //Jackson
     const val jackson = "2.9.+"
 
     //Zip4J
+    //TODO update version to 2.+
     const val zip4j = "1.3.3"
 
 }
