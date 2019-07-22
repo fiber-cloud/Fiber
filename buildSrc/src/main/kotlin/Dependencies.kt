@@ -25,6 +25,13 @@ object Versions {
     //Zip4J
     const val zip4j = "2.1.1"
 
+    //JUnit
+    const val jUnit = "5.5.1"
+}
+
+object TestDependencies {
+    //JUnit
+    const val jUnit = "org.junit.jupiter:junit-jupiter:${Versions.jUnit}"
 }
 
 object Dependencies {

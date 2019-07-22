@@ -25,6 +25,8 @@ dependencies {
 
     implementation(project(":Fiber-Command"))
     implementation(project(":Fiber-Config"))
+
+    testImplementation(TestDependencies.jUnit)
 }
 
 this.tasks.withType<ShadowJar> {
@@ -55,5 +57,12 @@ tasks {
     registering(DeployTask::class) {
         this.group = "fiber"
         dependsOn(build)
+    }
+    
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
     }
 }
