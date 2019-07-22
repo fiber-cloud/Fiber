@@ -9,7 +9,7 @@ fun Path.createDirectories(): Path = Files.createDirectories(this)
 
 fun Path.createFile(): Path = Files.createFile(this)
 
-fun Path.listFiles(): List<Path> = (this.toFile().listFiles()?: emptyList()).map { it.toPath() }
+fun Path.listFiles(): List<Path> = this.toFile().listFiles()?.map { it.toPath() } ?: emptyList()
 
 fun Path.isDirectory(): Boolean = this.toFile().isDirectory
 
