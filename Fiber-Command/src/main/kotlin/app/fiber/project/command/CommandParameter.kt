@@ -15,9 +15,9 @@ import kotlin.reflect.KClass
  * @since 1.0
  */
 data class CommandParameter(
-        val index: Int,
-        val name: String,
-        val description: String,
-        val type: KClass<*>,
-        val optional: Boolean
+    val index: Int,
+    val name: String,
+    val description: String,
+    val type: KClass<*>,
+    val optional: Boolean
 )
