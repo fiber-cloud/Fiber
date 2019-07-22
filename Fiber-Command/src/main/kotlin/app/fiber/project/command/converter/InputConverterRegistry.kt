@@ -24,7 +24,6 @@ object InputConverterRegistry {
      *
      * @param [inputConverter] List of [InputConverter], that will be registered.
      */
-    @Suppress("unused")
     fun register(vararg inputConverter: InputConverter<*>) = this.inputConverters.addAll(inputConverter)
 
     /**
