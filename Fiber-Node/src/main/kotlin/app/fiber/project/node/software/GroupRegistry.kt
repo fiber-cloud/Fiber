@@ -8,7 +8,7 @@ class ProxyGroupRegistry : GroupRegistry<ProxyGroup>()
 
 abstract class GroupRegistry<T : Group> {
 
-    val groups = mutableListOf<T>()
+    var groups = mutableListOf<T>()
 
     fun add(group: T) = this.groups.add(group)
 

@@ -31,11 +31,11 @@ class ProxyCommand : KoinComponent {
         [
             Parameter("name", "Name of the proxy group"),
             Parameter("instances", "Range of instances of the proxy group", IntRange::class),
-            Parameter("template", "Template of the proxy group", Template::class),
-            Parameter("fallback", "Fallback server group", ServerGroup::class, true)
+            Parameter("template", "Template of the proxy group"),
+            Parameter("fallback", "Fallback server group", optional = true)
         ]
     )
-    fun addGroup(name: String, instances: IntRange, template: Template, fallback: ServerGroup?): CommandResult {
+    fun addGroup(name: String, instances: IntRange, template: String, fallback: String?): CommandResult {
         val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, template, fallback)
 
         this.proxyRegistry.add(proxyGroup)
@@ -72,7 +72,7 @@ class ProxyCommand : KoinComponent {
 
         this.proxyRegistry.groups.forEachIndexed { index, it ->
             this.logger.info(
-                "${index + 1}: Name=${it.name}, Template=${it.template.name}"
+                "${index + 1}: Name=${it.name}, Template=${it.template}"
             )
         }
         this.logger.info("")
@@ -94,7 +94,7 @@ class ServerCommand : KoinComponent {
         [
             Parameter("name", "Name of the server group"),
             Parameter("instances", "Range of instances of the server group", IntRange::class),
-            Parameter("template", "Template of the proxy group", Template::class),
+            Parameter("template", "Template of the proxy group"),
             Parameter("priority", "Priority to start the group", Int::class),
             Parameter("type", "Type of the server", ServerType::class)
         ]
@@ -102,7 +102,7 @@ class ServerCommand : KoinComponent {
     fun addGroup(
         name: String,
         instances: IntRange,
-        template: Template,
+        template: String,
         priority: Int,
         type: ServerType
     ): CommandResult {
@@ -142,7 +142,7 @@ class ServerCommand : KoinComponent {
 
         this.serverRegistry.groups.forEachIndexed { index, it ->
             this.logger.info(
-                "${index + 1}: Name=${it.name}, Priority=${it.priority}, Template=${it.template.name}"
+                "${index + 1}: Name=${it.name}, Priority=${it.priority}, Template=${it.template}"
             )
         }
         this.logger.info("")
