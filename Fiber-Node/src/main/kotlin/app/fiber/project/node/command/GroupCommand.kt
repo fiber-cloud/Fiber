@@ -32,11 +32,12 @@ class ProxyCommand : KoinComponent {
             Parameter("name", "Name of the proxy group"),
             Parameter("instances", "Range of instances of the proxy group", IntRange::class),
             Parameter("template", "Template of the proxy group"),
+            Parameter("priority", "Priority of the proxy group", Int::class),
             Parameter("fallback", "Fallback server group", optional = true)
         ]
     )
-    fun addGroup(name: String, instances: IntRange, template: String, fallback: String?): CommandResult {
-        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, template, fallback)
+    fun addGroup(name: String, instances: IntRange, template: String, priority: Int, fallback: String?): CommandResult {
+        val proxyGroup = ProxyGroup(name, UUID.randomUUID(), instances, template, priority, fallback)
 
         this.proxyRegistry.add(proxyGroup)
         this.logger.info("Added proxy group $name")

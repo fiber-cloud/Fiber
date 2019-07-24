@@ -7,8 +7,8 @@ import java.util.*
 data class ServerGroup(
     override val name: String,
     override val uuid: UUID,
-    override var instances: IntRange,
-    override var template: String,
-    var priority: Int,
+    override val instances: IntRange,
+    override val template: String,
+    override val priority: Int,
     val type: ServerType
-) : Group(name, uuid, instances, template)
+) : Group(name, uuid, instances, template, priority)

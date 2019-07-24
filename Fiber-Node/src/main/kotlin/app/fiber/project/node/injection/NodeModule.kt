@@ -3,6 +3,7 @@ package app.fiber.project.node.injection
 import app.fiber.project.node.addon.AddonManager
 import app.fiber.project.node.deployment.profile.DeploymentProfileRegistry
 import app.fiber.project.node.addon.EventBus
+import app.fiber.project.node.deployment.schedule.DeploymentScheduler
 import app.fiber.project.node.logging.Logger
 import app.fiber.project.node.software.ProxyGroupRegistry
 import app.fiber.project.node.software.ServerGroupRegistry
@@ -18,4 +19,5 @@ internal val nodeModule = module {
     single { ServerGroupRegistry() }
     single { TemplateRegistry() }
     single { DeploymentProfileRegistry() }
+    single { DeploymentScheduler() }
 }

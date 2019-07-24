@@ -5,6 +5,7 @@ import java.util.*
 abstract class Group(
     open val name: String,
     open val uuid: UUID,
-    open var instances: IntRange,
-    open var template: String
+    open val instances: IntRange,
+    open val template: String,
+    open val priority: Int
 )
