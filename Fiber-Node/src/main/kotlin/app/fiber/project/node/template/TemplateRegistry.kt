@@ -1,5 +1,6 @@
 package app.fiber.project.node.template
 
+import app.fiber.project.node.io.listFiles
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -17,7 +18,7 @@ class TemplateRegistry : KoinComponent {
 
     private val templates = mutableListOf<Template>()
 
-    init {
+    fun loadTemplates() {
         val templateDirectory = Paths.get("templates")
         if (Files.notExists(templateDirectory)) Files.createDirectories(templateDirectory)
 
@@ -28,7 +29,7 @@ class TemplateRegistry : KoinComponent {
     fun findByName(name: String) = this.templates.find { it.name == name }
 
     private fun loadTemplates(templateDirectory: Path) {
-        templateDirectory.toFile().listFiles().forEach { this.loadTemplate(it.toPath()) }
+        templateDirectory.listFiles().forEach { this.loadTemplate(it) }
     }
 
     private fun loadTemplate(templatePath: Path) = this.templates.add(this.mapper.readValue(templatePath.toFile()))

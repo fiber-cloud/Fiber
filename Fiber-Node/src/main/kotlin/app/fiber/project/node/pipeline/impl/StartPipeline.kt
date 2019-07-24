@@ -12,6 +12,7 @@ import app.fiber.project.node.config.ServerGroupConfig
 import app.fiber.project.node.deployment.schedule.DeploymentScheduler
 import app.fiber.project.node.pipeline.Pipeline
 import app.fiber.project.node.pipeline.Stage
+import app.fiber.project.node.template.TemplateRegistry
 import app.fiber.project.node.template.resources.ResourcesTreeCreator
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -37,6 +38,9 @@ class StartPipeline : Pipeline, KoinComponent {
     fun createResourcesTree() = ResourcesTreeCreator().createResourcesTree()
 
     @Stage(4)
+    fun loadTemplates() = inject<TemplateRegistry>().value.loadTemplates()
+
+    @Stage(5)
     fun startDeploymentScheduler() = inject<DeploymentScheduler>().value.start()
 
 }
