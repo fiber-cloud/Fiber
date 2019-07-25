@@ -40,16 +40,8 @@ data class CommandRoute(
             if (parameters.isEmpty()) return CommandResult.WRONG_PARAMETERS
         }
 
-        val convertedParameters = try {
-            this.convertParameters(parameters)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return CommandResult.CONVERTER_ERROR
-        }
-
-        if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance, convertedParameters)
-
-        return this.executeWithParameters(invokeInstance, convertedParameters)
+        return if (this.hasOptionalParameters()) this.executeWithOptionalParameters(parameters, invokeInstance)
+        else { this.executeWithParameters(invokeInstance, parameters) }
     }
 
     /**
@@ -70,20 +62,25 @@ data class CommandRoute(
      *
      * @param [parameters] Parameters to execute the function.
      * @param [invokeInstance] Instance to call the function.
-     * @param [convertedParameters] Converted parameters to execute the function.
      *
      * @return [CommandResult] of the execution.
      */
     private fun executeWithOptionalParameters(
         parameters: List<String>,
-        invokeInstance: Any,
-        convertedParameters: List<Any?>
+        invokeInstance: Any
     ): CommandResult {
         when {
             parameters.size > this.parameters.size -> return CommandResult.WRONG_PARAMETERS
 
             parameters.size == this.parameters.size -> {
                 this.checkAccess()
+
+                val convertedParameters = try {
+                    this.convertParameters(parameters)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    return CommandResult.CONVERTER_ERROR
+                }
 
                 return this.function.call(invokeInstance, *convertedParameters.toTypedArray()) as CommandResult
             }
@@ -113,12 +110,20 @@ data class CommandRoute(
      * Executes this [CommandRoute] if it has [CommandParameter]s.
      *
      * @param [invokeInstance] Instance to call the function.
-     * @param [convertedParameters] Converted parameters to execute the function.
+     * @param [parameters] Parameters for converting and executing.
      *
      * @return [CommandResult] of the execution.
      */
-    private fun executeWithParameters(invokeInstance: Any, convertedParameters: List<Any?>): CommandResult {
+    private fun executeWithParameters(invokeInstance: Any, parameters: List<String>): CommandResult {
         if (parameters.size != this.parameters.size) return CommandResult.WRONG_PARAMETERS
+
+        val convertedParameters = try {
+            this.convertParameters(parameters)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return CommandResult.CONVERTER_ERROR
+        }
+
 
         this.checkAccess()
 
