@@ -20,7 +20,7 @@ before_install:
   - chmod +x gradlew
 
 script:
-  - ./gradlew assemble
+  - ./gradlew build
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
